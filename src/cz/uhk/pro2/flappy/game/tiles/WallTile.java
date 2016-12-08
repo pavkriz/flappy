@@ -8,9 +8,9 @@ import cz.uhk.pro2.flappy.game.Tile;
 public class WallTile implements Tile {
 	Image image;
 	
-//	public WallTile(Image image) {
-//		this.image = image;
-//	}
+	public WallTile(Image image) {
+		this.image = image;
+	}
 	
 	@Override
 	public void draw(Graphics g, int x, int y) {

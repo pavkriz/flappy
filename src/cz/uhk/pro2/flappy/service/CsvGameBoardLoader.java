@@ -1,12 +1,18 @@
 package cz.uhk.pro2.flappy.service;
 
+import java.awt.Graphics2D;
+import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
+
+import javax.imageio.ImageIO;
 
 import cz.uhk.pro2.flappy.game.GameBoard;
 import cz.uhk.pro2.flappy.game.Tile;
@@ -35,7 +41,7 @@ public class CsvGameBoardLoader implements GameBoardLoader {
 				int w = Integer.parseInt(line[4]);
 				int h = Integer.parseInt(line[5]);
 				String url = line[6];
-				Tile tile = createTile(clazz, x, y, w, h);
+				Tile tile = createTile(clazz, x, y, w, h, url);
 				tileTypes.put(tileType, tile);
 			}
 			line = br.readLine().split(";");
@@ -66,9 +72,27 @@ public class CsvGameBoardLoader implements GameBoardLoader {
 		}
 	}
 
-	private Tile createTile(String clazz, int x, int y, int w, int h) {
-		// TODO Auto-generated method stub
-		return null;
+	private Tile createTile(String clazz, int x, int y, int w, int h, String url) {
+		try {
+			// stahnout obrazek z URL a ulozit do promenne
+			BufferedImage originalImage = ImageIO.read(new URL(url));
+			// vyriznou odpovidajici sprite z velkeho obrazku s mnoha sprity
+			BufferedImage croppedImage = originalImage.getSubimage(x, y, w, h);
+			// zvetsime/zmensime obrazek tak, aby sedel na velikost dlazdice
+			BufferedImage resizedImage = new BufferedImage(Tile.SIZE, Tile.SIZE, BufferedImage.TYPE_INT_ARGB);
+			Graphics2D g = resizedImage.createGraphics();
+			g.drawImage(croppedImage, 0, 0, Tile.SIZE, Tile.SIZE, null);
+			// vytvorime odpovidajici typ dlazdice
+			switch (clazz) {
+			default:
+				return new WallTile(resizedImage);
+				
+			}
+		} catch (MalformedURLException e) {
+			throw new RuntimeException("Spatna URL pro obrazek " + clazz + ": " + url, e);
+		} catch (IOException e) {
+			throw new RuntimeException("Chyba pri cteni obrazku" + clazz + " z URL " + url, e);
+		}
 	}
 
 }
