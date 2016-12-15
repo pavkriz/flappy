@@ -16,6 +16,7 @@ import javax.imageio.ImageIO;
 
 import cz.uhk.pro2.flappy.game.GameBoard;
 import cz.uhk.pro2.flappy.game.Tile;
+import cz.uhk.pro2.flappy.game.tiles.EmptyTile;
 import cz.uhk.pro2.flappy.game.tiles.WallTile;
 
 public class CsvGameBoardLoader implements GameBoardLoader {
@@ -84,10 +85,15 @@ public class CsvGameBoardLoader implements GameBoardLoader {
 			g.drawImage(croppedImage, 0, 0, Tile.SIZE, Tile.SIZE, null);
 			// vytvorime odpovidajici typ dlazdice
 			switch (clazz) {
-			default:
+			case "Wall":
 				return new WallTile(resizedImage);
-				
+			case "Empty":
+				return new EmptyTile(resizedImage);
+			case "Bonus":
+				return new EmptyTile(resizedImage); // TODO
 			}
+			// ani jedna vetev switch-case nevyhovovala
+			throw new RuntimeException("Neznamy typ dlazdice " + clazz);
 		} catch (MalformedURLException e) {
 			throw new RuntimeException("Spatna URL pro obrazek " + clazz + ": " + url, e);
 		} catch (IOException e) {

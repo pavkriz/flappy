@@ -29,7 +29,7 @@ public class MainWindow extends JFrame {
 		@Override
 		public void paint(Graphics g) {
 			super.paint(g); // vykresli prazdny panel
-			gameBoard.draw(g); // vykresli hraci plochu
+			gameBoard.drawAndTestCollisions(g); // vykresli hraci plochu
 		}
 	}
 	
