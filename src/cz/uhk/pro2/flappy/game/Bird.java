@@ -2,6 +2,7 @@ package cz.uhk.pro2.flappy.game;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Image;
 import java.awt.geom.Ellipse2D;
 
 public class Bird implements TickAware {
@@ -18,10 +19,13 @@ public class Bird implements TickAware {
 	//kolik ticku jeste zbyva, nez ptak po nakopnuti zacne padat
 	int ticksToFall = 0;
 	
+	Image image; // obrazek ptaka
 	
-	public Bird(int initialX, int initialY) {
+	
+	public Bird(int initialX, int initialY, Image image) {
 		this.viewportX = initialX;
 		this.viewportY = initialY;
+		this.image = image;
 	}
 	
 	public void kick() {
@@ -32,7 +36,8 @@ public class Bird implements TickAware {
 	
 	public void draw(Graphics g) {
 		g.setColor(Color.GREEN);
-		g.fillOval(viewportX-Tile.SIZE/2, (int)viewportY-Tile.SIZE/2, Tile.SIZE, Tile.SIZE);
+		//g.fillOval(viewportX-Tile.SIZE/2, (int)viewportY-Tile.SIZE/2, Tile.SIZE, Tile.SIZE);
+		g.drawImage(image, viewportX-Tile.SIZE/2, (int)viewportY-Tile.SIZE/2, null);
 		
 		// debug, souradnice ptaka
 		g.setColor(Color.BLACK);
