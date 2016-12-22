@@ -3,6 +3,7 @@ package cz.uhk.pro2.flappy.game;
 import java.awt.Graphics;
 import java.awt.Image;
 
+import cz.uhk.pro2.flappy.game.tiles.BonusTile;
 import cz.uhk.pro2.flappy.game.tiles.WallTile;
 
 public class GameBoard implements TickAware {
@@ -47,6 +48,10 @@ public class GameBoard implements TickAware {
 							// doslo ke kolizi ptaka s dlazdici
 							System.out.println("Kolize");
 							gameOver = true;
+						}
+					} else if (t instanceof BonusTile) {
+						if (bird.collidesWithRectangle(screenX, screenY, Tile.SIZE, Tile.SIZE)) {
+							((BonusTile)t).setActive(false);
 						}
 					}
 				}
