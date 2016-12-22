@@ -34,14 +34,16 @@ public class MainWindow extends JFrame {
 	}
 	
 	public MainWindow() {
-		try (InputStream is = new FileInputStream("level.csv")) {
-			GameBoardLoader loader = new CsvGameBoardLoader(is);
-			gameBoard = loader.loadLevel();
-		//} catch (FileNotFoundException e1) {
+//		try (InputStream is = new FileInputStream("level.csv")) {
+//			GameBoardLoader loader = new CsvGameBoardLoader(is);
+//			gameBoard = loader.loadLevel();
+//		//} catch (FileNotFoundException e1) {
+////			e1.printStackTrace();
+//		} catch (IOException e1) {
 //			e1.printStackTrace();
-		} catch (IOException e1) {
-			e1.printStackTrace();
-		}
+//		}
+		LevelPicker picker = new LevelPicker();
+		gameBoard = picker.pickAndLoadLevel(); // pozor, muze vracet null
 		//gameBoard = new GameBoard();
 		add(pnl,BorderLayout.CENTER);
 		pnl.setPreferredSize(new Dimension(200, gameBoard.getHeightPix())); // TODO
